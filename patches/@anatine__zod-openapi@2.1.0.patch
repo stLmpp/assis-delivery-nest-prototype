@@ -1,0 +1,25 @@
+diff --git a/src/lib/zod-openapi.js b/src/lib/zod-openapi.js
+index a9b48f67a985adac9d40f2734064bfb0a73b4f3b..2e36bd0aaa3d15e57f51ec3c0039786f8e121e21 100644
+--- a/src/lib/zod-openapi.js
++++ b/src/lib/zod-openapi.js
+@@ -248,6 +248,12 @@ function parseBranded({ schemas, zodRef, }) {
+ function catchAllParser({ zodRef, schemas, }) {
+     return (0, ts_deepmerge_1.default)(zodRef.description ? { description: zodRef.description } : {}, ...schemas);
+ }
++function parsePipeline({ zodRef, useOutput }) {
++    if (useOutput) {
++      return generateSchema(zodRef._def.out, useOutput);
++    }
++    return generateSchema(zodRef._def.in, useOutput);
++}
+ const workerMap = {
+     ZodObject: parseObject,
+     ZodRecord: parseRecord,
+@@ -282,6 +288,7 @@ const workerMap = {
+     ZodAny: catchAllParser,
+     ZodUnknown: catchAllParser,
+     ZodVoid: catchAllParser,
++    ZodPipeline: parsePipeline,
+ };
+ function generateSchema(zodRef, useOutput) {
+     const { metaOpenApi = {} } = zodRef;
