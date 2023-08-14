@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ThrottlerStorageRecord } from '@nestjs/throttler/dist/throttler-storage-record.interface';
-import { FirebaseAdminFirestore } from './firebase-admin';
 import { ThrottlerStorageOptions } from '@nestjs/throttler/dist/throttler-storage-options.interface';
 import {
-  FirestoreDataConverter,
-  WithFieldValue,
-  DocumentData,
-  QueryDocumentSnapshot,
   CollectionReference,
+  DocumentData,
+  FirestoreDataConverter,
+  QueryDocumentSnapshot,
+  WithFieldValue,
 } from 'firebase-admin/firestore';
 import { z } from 'zod';
+import { FirebaseAdminFirestore } from './firebase-admin-firestore';
 
 export const FirestoreThrottlerCollectionNameToken =
   'FirestoreThrottlerCollectionNameToken';
@@ -37,7 +37,7 @@ export class FirestoreThrottler {
         this.documentSchema.parse(modelObject),
       fromFirestore: (
         snapshot: QueryDocumentSnapshot,
-      ): ThrottlerStorageOptions => this.documentSchema.parse(snapshot),
+      ): ThrottlerStorageOptions => this.documentSchema.parse(snapshot.data()),
     };
 
   private getCollection(): CollectionReference<ThrottlerStorageOptions> {
@@ -46,7 +46,12 @@ export class FirestoreThrottler {
       .withConverter(this.converter);
   }
 
+  private getTimeToExpire(expiresAt: number): number {
+    return Math.floor((expiresAt - Date.now()) / 1000);
+  }
+
   async increment(key: string, ttl: number): Promise<ThrottlerStorageRecord> {
+    // TODO fix throttler
     const ttlMs = ttl * 1000;
     const doc = this.getCollection().doc(key);
     const snapshot = await doc.get();
@@ -57,17 +62,21 @@ export class FirestoreThrottler {
         expiresAt: Date.now() + ttlMs,
       };
       await doc.create(data);
+      return {
+        totalHits: data.totalHits,
+        timeToExpire: this.getTimeToExpire(data.expiresAt),
+      };
     }
-    let timeToExpire = Math.floor((data.expiresAt - Date.now()) / 1000);
+    let timeToExpire = this.getTimeToExpire(data.expiresAt);
     const update: Partial<ThrottlerStorageOptions> = {};
     if (timeToExpire <= 0) {
       update.expiresAt = Date.now() + ttlMs;
-      timeToExpire = Math.floor((update.expiresAt - Date.now()) / 1000);
+      timeToExpire = this.getTimeToExpire(update.expiresAt);
     }
     update.totalHits = data.totalHits + 1;
     await doc.update(update);
     return {
-      totalHits: update.totalHits,
+      totalHits: update.totalHits ?? data.totalHits,
       timeToExpire,
     };
   }

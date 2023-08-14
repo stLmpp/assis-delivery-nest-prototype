@@ -26,7 +26,7 @@ export const UsersSchema = pgTable(
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('created_at').defaultNow(),
   },
-  () => ({
-    cityIdIndex: index('city_id_index').on(UsersSchema.cityId),
+  (table) => ({
+    cityIdIndex: index('city_id_index').on(table.cityId),
   }),
 );

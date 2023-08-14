@@ -4,17 +4,21 @@ export const ZOD_DTO_SCHEMA = Symbol('Zod Dto Schema');
 
 export interface ZodDto<T extends ZodSchema = ZodSchema> {
   new (): z.infer<T>;
-  [ZOD_DTO_SCHEMA]: T;
+}
+
+export interface ZodDtoInternal<T extends ZodSchema = ZodSchema>
+  extends ZodDto<T> {
+  readonly [ZOD_DTO_SCHEMA]: T;
 }
 
 export function zodDto<T extends ZodSchema>(schema: T): ZodDto<T> {
   class Dto {
-    static [ZOD_DTO_SCHEMA] = schema;
+    static readonly [ZOD_DTO_SCHEMA] = schema;
   }
   return Dto;
 }
 
-export function isZodDto(value: unknown): value is ZodDto {
+export function isZodDto(value: unknown): value is ZodDtoInternal {
   return (
     !!value &&
     typeof value === 'function' &&
@@ -27,7 +31,7 @@ export function getZodDto(
   target: Object,
   propertyKey: string | symbol,
   parameterIndex: number,
-): ZodDto {
+): ZodDtoInternal {
   const type = Reflect.getMetadata('design:paramtypes', target, propertyKey)?.[
     parameterIndex
   ];

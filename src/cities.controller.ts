@@ -6,7 +6,6 @@ import { GetCityParams } from './dto/GetCityDto';
 import { eq } from 'drizzle-orm';
 import { exception, Exceptions } from './core/exception';
 import { Response } from './core/zod/response.decorator';
-import { QueryParams } from './core/zod/query-params.decorator';
 import { Params } from './core/zod/params.decorator';
 import { Body } from './core/zod/body.decorator';
 
@@ -58,7 +57,6 @@ export class CitiesController {
   @Get(':idCity')
   async getCity(
     @Params() { idCity }: GetCityParams,
-    @QueryParams() query: GetCityParams,
   ): Promise<PostCitiesResponse> {
     const [city] = await this.drizzle
       .select()
@@ -67,6 +65,9 @@ export class CitiesController {
     if (!city) {
       throw CITY_NOT_FOUND();
     }
-    return city;
+    return {
+      ...city,
+      id: '123',
+    } as any;
   }
 }

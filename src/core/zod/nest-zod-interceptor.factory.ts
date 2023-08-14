@@ -4,10 +4,11 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  InternalServerErrorException,
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable, switchMap } from 'rxjs';
+import { INVALID_RESPONSE } from '../core-exceptions';
+import { formatZodErrorString } from '../../common/zod-error-formatter';
 
 export function nestZodInterceptorFactory(
   schema: ZodSchema,
@@ -22,8 +23,7 @@ export function nestZodInterceptorFactory(
         switchMap(async (data) => {
           const result = await schema.safeParseAsync(data);
           if (!result.success) {
-            // TODO add custom error
-            throw new InternalServerErrorException();
+            throw INVALID_RESPONSE(formatZodErrorString(result.error));
           }
           return result.data;
         }),

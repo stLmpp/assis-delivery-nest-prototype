@@ -36,3 +36,9 @@ export const ROUTE_NOT_FOUND = exception({
   status: HttpStatus.NOT_FOUND,
   errorCode: 'CORE-0007',
 });
+export const INVALID_RESPONSE = exception({
+  status: HttpStatus.INTERNAL_SERVER_ERROR,
+  errorCode: 'CORE-0008',
+  message:
+    'Our server replied with the wrong response. Please contact the support.',
+});

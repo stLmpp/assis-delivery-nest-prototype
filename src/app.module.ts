@@ -3,6 +3,7 @@ import { CitiesController } from './cities.controller';
 import { DrizzleOrmModule } from './database/drizzle-orm.module';
 import { CoreModule } from './core/core.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { FirebaseAdminModule } from './firebase/firebase-admin';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
     CoreModule.forRoot(),
+    FirebaseAdminModule.forRoot(),
   ],
   controllers: [CitiesController],
   providers: [],
