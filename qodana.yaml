@@ -22,7 +22,7 @@ include:
 #These options are ignored during local run
 
 #Execute shell command before Qodana execution
-bootstrap: pnpm install
+#bootstrap: pnpm install
 
 #Install IDE plugins before Qodana execution
 #plugins:

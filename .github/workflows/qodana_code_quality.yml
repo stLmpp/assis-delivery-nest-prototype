@@ -18,7 +18,6 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: false
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2022.3.4
         env:
