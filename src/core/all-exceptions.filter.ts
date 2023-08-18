@@ -14,30 +14,63 @@ import {
 } from './core-exceptions';
 import { ThrottlerException } from '@nestjs/throttler';
 import { Request } from 'express';
+import { Class } from 'type-fest';
+import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+
+type PossibleException<T = any> = {
+  type: Class<T>;
+  condition?: (exception: T) => boolean;
+  exception: (exception: T, context: HttpArgumentsHost) => Exception;
+};
+
+function possibleException<T>(
+  options: PossibleException<T>,
+): PossibleException<T> {
+  return options;
+}
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+
+  private readonly possibleExceptions: PossibleException[] = [
+    possibleException({
+      type: NotFoundException,
+      condition: (exception) => exception.message.startsWith('Cannot'),
+      exception: (_, context) =>
+        ROUTE_NOT_FOUND(
+          `Route not found: ${context.getRequest<Request>().path}`,
+        ),
+    }),
+    possibleException({
+      type: ThrottlerException,
+      exception: () => TOO_MANY_REQUESTS(),
+    }),
+    possibleException({
+      type: Exception,
+      exception: (exception) => exception,
+    }),
+  ];
 
   catch(unknownException: unknown, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost;
 
     const context = host.switchToHttp();
 
-    let exception: Exception;
+    let exception: Exception | undefined = undefined;
 
-    if (
-      unknownException instanceof NotFoundException &&
-      unknownException.message.startsWith('Cannot')
-    ) {
-      exception = ROUTE_NOT_FOUND(
-        `Route not found: ${context.getRequest<Request>().path}`,
-      );
-    } else if (unknownException instanceof ThrottlerException) {
-      exception = TOO_MANY_REQUESTS();
-    } else if (unknownException instanceof Exception) {
-      exception = unknownException;
-    } else {
+    for (const { condition, exception: exceptionGetter, type } of this
+      .possibleExceptions) {
+      if (
+        !(unknownException instanceof type) ||
+        (condition && !condition(unknownException))
+      ) {
+        continue;
+      }
+      exception = exceptionGetter(unknownException, context);
+    }
+
+    if (!exception) {
       Logger.error(
         `An unknown error occurred. Error: "${unknownException}". Details: ${JSON.stringify(
           unknownException,
