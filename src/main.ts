@@ -25,7 +25,13 @@ async function createNestApp(): Promise<Express> {
     new ExpressAdapter(expressApp),
   );
   app
-    .use(internalStateMiddleware(), helmet(), compression())
+    .use(
+      internalStateMiddleware(),
+      helmet({
+        contentSecurityPolicy: false,
+      }),
+      compression(),
+    )
     .enableVersioning({
       type: VersioningType.URI,
       prefix: 'v',

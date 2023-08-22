@@ -52,6 +52,9 @@ export class FirestoreThrottler {
 
   async increment(key: string, ttl: number): Promise<ThrottlerStorageRecord> {
     // TODO fix throttler
+    // Add one collection per key
+    // Add one document per request
+    // Count only the documents that are not expired
     const ttlMs = ttl * 1000;
     const doc = this.getCollection().doc(key);
     const snapshot = await doc.get();
