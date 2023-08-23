@@ -16,7 +16,9 @@ import { FirebaseAdminModule } from './firebase/firebase-admin';
       }),
     }),
     CoreModule.forRoot(),
-    FirebaseAdminModule.forRoot(),
+    FirebaseAdminModule.forRoot({
+      throttlerLimit: 10,
+    }),
   ],
   controllers: [CitiesController],
   providers: [],

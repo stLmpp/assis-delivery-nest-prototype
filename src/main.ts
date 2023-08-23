@@ -41,7 +41,7 @@ async function createNestApp(): Promise<Express> {
     .setTitle('API')
     .setVersion('1.0.0')
     .addServer(
-      'http://localhost:5001/assis-delivery-prototype/us-central1/api/',
+      'http://127.0.0.1:5001/assis-delivery-prototype/us-central1/api/',
     )
     .build();
   const document = SwaggerModule.createDocument(app, config, {});

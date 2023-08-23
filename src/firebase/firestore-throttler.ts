@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ThrottlerStorageRecord } from '@nestjs/throttler/dist/throttler-storage-record.interface';
-import { ThrottlerStorageOptions } from '@nestjs/throttler/dist/throttler-storage-options.interface';
 import {
   CollectionReference,
   DocumentData,
@@ -14,6 +13,18 @@ import { FirebaseAdminFirestore } from './firebase-admin-firestore';
 export const FirestoreThrottlerCollectionNameToken =
   'FirestoreThrottlerCollectionNameToken';
 
+const ThrottlerRecordSchema = z
+  .object({
+    expiresAt: z.number().catch(() => Date.now() + 5_000),
+    hits: z.array(z.number()).catch([]),
+  })
+  .catch(() => ({
+    hits: [],
+    expiresAt: Date.now() + 5_000,
+  }));
+
+type ThrottlerRecord = z.infer<typeof ThrottlerRecordSchema>;
+
 @Injectable()
 export class FirestoreThrottler {
   constructor(
@@ -22,25 +33,15 @@ export class FirestoreThrottler {
     private readonly collectionName: string,
   ) {}
 
-  private readonly documentSchema = z
-    .object({
-      totalHits: z.number().catch(0),
-      expiresAt: z.number().catch(() => Date.now() + 5_000),
-    })
-    .catch(() => ({
-      totalHits: 0,
-      expiresAt: Date.now() + 5_000,
-    }));
-  private readonly converter: FirestoreDataConverter<ThrottlerStorageOptions> =
-    {
-      toFirestore: (modelObject: WithFieldValue<unknown>): DocumentData =>
-        this.documentSchema.parse(modelObject),
-      fromFirestore: (
-        snapshot: QueryDocumentSnapshot,
-      ): ThrottlerStorageOptions => this.documentSchema.parse(snapshot.data()),
-    };
+  private readonly documentSchema = ThrottlerRecordSchema;
+  private readonly converter: FirestoreDataConverter<ThrottlerRecord> = {
+    toFirestore: (modelObject: WithFieldValue<unknown>): DocumentData =>
+      this.documentSchema.parse(modelObject),
+    fromFirestore: (snapshot: QueryDocumentSnapshot): ThrottlerRecord =>
+      this.documentSchema.parse(snapshot.data()),
+  };
 
-  private getCollection(): CollectionReference<ThrottlerStorageOptions> {
+  private getCollection(): CollectionReference<ThrottlerRecord> {
     return this.firebaseAdminFirestore
       .collection(this.collectionName)
       .withConverter(this.converter);
@@ -50,36 +51,47 @@ export class FirestoreThrottler {
     return Math.floor((expiresAt - Date.now()) / 1000);
   }
 
+  private getTimeToExpireMs(expiresAt: number): number {
+    return expiresAt - Date.now();
+  }
+
   async increment(key: string, ttl: number): Promise<ThrottlerStorageRecord> {
     // TODO fix throttler
     // Add one collection per key
     // Add one document per request
     // Count only the documents that are not expired
+    // TODO add fix prototype
     const ttlMs = ttl * 1000;
     const doc = this.getCollection().doc(key);
     const snapshot = await doc.get();
-    let data: ThrottlerStorageOptions | undefined = snapshot.data();
+    let data: ThrottlerRecord | undefined = snapshot.data();
     if (!data) {
       data = {
-        totalHits: 0,
         expiresAt: Date.now() + ttlMs,
+        hits: [],
       };
       await doc.create(data);
       return {
-        totalHits: data.totalHits,
+        totalHits: 0,
         timeToExpire: this.getTimeToExpire(data.expiresAt),
       };
     }
-    let timeToExpire = this.getTimeToExpire(data.expiresAt);
-    const update: Partial<ThrottlerStorageOptions> = {};
+    const expiresAt = data.expiresAt;
+    let timeToExpire = this.getTimeToExpire(expiresAt);
+    const update: Partial<ThrottlerRecord> = {};
     if (timeToExpire <= 0) {
       update.expiresAt = Date.now() + ttlMs;
       timeToExpire = this.getTimeToExpire(update.expiresAt);
     }
-    update.totalHits = data.totalHits + 1;
-    await doc.update(update);
+    await doc.update({
+      ...update,
+      hits: [...data.hits, update.expiresAt ?? expiresAt],
+    });
+    const totalHits = data.hits.filter(
+      (hit) => this.getTimeToExpireMs(hit) > 0,
+    ).length;
     return {
-      totalHits: update.totalHits ?? data.totalHits,
+      totalHits,
       timeToExpire,
     };
   }
