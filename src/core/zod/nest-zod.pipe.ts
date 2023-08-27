@@ -5,7 +5,7 @@ import {
   BAD_REQUEST_BODY,
   BAD_REQUEST_PARAMS,
   BAD_REQUEST_QUERY,
-} from '../core-exceptions';
+} from '../exception/core-exceptions';
 import { isZodDto, ZOD_DTO_SCHEMA } from './zod-dto';
 import { ExceptionFactoryWithError } from '../exception/exception.type';
 
@@ -30,7 +30,6 @@ export class NestZodPipe implements PipeTransform {
     const parsed = await schema.safeParseAsync(value);
     if (!parsed.success) {
       const exceptionFactory = NEST_ZOD_PIPE_EXCEPTIONS[type];
-      console.log(parsed.error);
       throw exceptionFactory(formatZodErrorString(parsed.error));
     }
     return parsed.data;

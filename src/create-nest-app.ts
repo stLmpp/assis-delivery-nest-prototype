@@ -9,7 +9,7 @@ import express, { Express } from 'express';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { SwaggerUIOptions } from 'swagger-ui';
 
-(BigInt.prototype as BigInt & { toJSON(): number }).toJSON = function () {
+(BigInt.prototype as bigint & { toJSON(): number }).toJSON = function () {
   return Number(this);
 };
 

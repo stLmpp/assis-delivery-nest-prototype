@@ -6,11 +6,14 @@ import { generateSchema } from '../../common/generate-schema';
 import { ExceptionSchema } from './exceptios.schema';
 import { getReasonPhrase } from 'http-status-codes';
 import { randomUUID } from 'node:crypto';
+import * as CoreExceptions from './core-exceptions';
 
 const CORRELATION_ID_EXAMPLE = randomUUID();
 
 export function Exceptions(factories: ExceptionFactory[]): MethodDecorator {
-  const exceptions = factories.map((exception) => exception(''));
+  const exceptions = [...factories, ...Object.values(CoreExceptions)].map(
+    (exception) => exception(''),
+  );
   return (target, propertyKey, descriptor) => {
     const statusList = arrayUniqBy(exceptions, (exception) =>
       exception.getStatus(),

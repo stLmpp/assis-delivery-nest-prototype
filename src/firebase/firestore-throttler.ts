@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { FirebaseAdminFirestore } from './firebase-admin-firestore';
-import { Throttler, ThrottlerOptionsArgs } from '../core/throttler.token';
+import { ThrottlerOptionsArgs } from '../core/throttler/throttler.type';
 import { FirebaseFunctionsRateLimiter } from 'firebase-functions-rate-limiter';
 import { safeAsync } from '../common/safe';
-import { TOO_MANY_REQUESTS } from '../core/core-exceptions';
+import { TOO_MANY_REQUESTS } from '../core/exception/core-exceptions';
+import { Throttler } from '../core/throttler/throttler';
 
 export const FirestoreThrottlerCollectionNameToken =
   'FirestoreThrottlerCollectionNameToken';

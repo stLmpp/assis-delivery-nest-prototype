@@ -10,7 +10,7 @@ import { Exception } from './exception/exception';
 import {
   ROUTE_NOT_FOUND,
   UNKNOWN_INTERNAL_SERVER_ERROR,
-} from './core-exceptions';
+} from './exception/core-exceptions';
 import { Request } from 'express';
 import { Class } from 'type-fest';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';

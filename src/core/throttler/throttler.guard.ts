@@ -10,23 +10,9 @@ import {
   THROTTLER_SKIP,
   THROTTLER_TTL,
 } from '@nestjs/throttler/dist/throttler.constants';
-
-export interface ThrottlerOptions {
-  limit: number;
-  ttl: number;
-}
-
-export interface ThrottlerOptionsArgs extends ThrottlerOptions {
-  context: ExecutionContext;
-}
-
-export abstract class Throttler {
-  abstract rejectOnQuotaExceededOrRecordUsage(
-    options: ThrottlerOptionsArgs,
-  ): Promise<void>;
-}
-
-export const ThrottlerOptionsToken = 'ThrottlerOptionsToken';
+import { ThrottlerOptions } from './throttler.type';
+import { Throttler } from './throttler';
+import { ThrottlerOptionsToken } from './throttler-options.token';
 
 @Injectable()
 export class ThrottlerGuard implements CanActivate {

@@ -9,12 +9,7 @@ import {
 import { FirebaseAdminApp } from './firebase-admin-app';
 import { FirebaseAdminFirestore } from './firebase-admin-firestore';
 import { FirebaseAdminAuth } from './firebase-admin-auth';
-import {
-  Throttler,
-  ThrottlerGuard,
-  ThrottlerOptions,
-  ThrottlerOptionsToken,
-} from '../core/throttler.token';
+import { ThrottlerOptions } from '../core/throttler/throttler.type';
 import {
   FirebaseAdminAsyncOptionsType,
   FirebaseAdminBaseClass,
@@ -23,6 +18,9 @@ import {
   FirebaseAdminOptionsType,
 } from './firebase-admin.config';
 import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '../core/throttler/throttler.guard';
+import { Throttler } from '../core/throttler/throttler';
+import { ThrottlerOptionsToken } from '../core/throttler/throttler-options.token';
 
 @Module({
   exports: [FirebaseAdminApp, FirebaseAdminFirestore, FirebaseAdminAuth],

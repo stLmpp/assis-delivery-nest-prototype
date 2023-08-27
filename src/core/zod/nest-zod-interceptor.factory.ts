@@ -7,7 +7,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable, switchMap } from 'rxjs';
-import { INVALID_RESPONSE } from '../core-exceptions';
+import { INVALID_RESPONSE } from '../exception/core-exceptions';
 import { formatZodErrorString } from '../../common/zod-error-formatter';
 
 export function nestZodInterceptorFactory(

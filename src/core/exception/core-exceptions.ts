@@ -1,4 +1,4 @@
-import { exception } from './exception/exception';
+import { exception } from './exception';
 import { HttpStatus } from '@nestjs/common';
 
 export const BAD_REQUEST_BODY = exception({
