@@ -6,13 +6,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { Exception } from './exception';
+import { Exception } from './exception/exception';
 import {
   ROUTE_NOT_FOUND,
-  TOO_MANY_REQUESTS,
   UNKNOWN_INTERNAL_SERVER_ERROR,
 } from './core-exceptions';
-import { ThrottlerException } from '@nestjs/throttler';
 import { Request } from 'express';
 import { Class } from 'type-fest';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
@@ -41,10 +39,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ROUTE_NOT_FOUND(
           `Route not found: ${context.getRequest<Request>().path}`,
         ),
-    }),
-    possibleException({
-      type: ThrottlerException,
-      exception: () => TOO_MANY_REQUESTS(),
     }),
     possibleException({
       type: Exception,

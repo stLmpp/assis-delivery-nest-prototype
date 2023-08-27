@@ -35,7 +35,7 @@ export function getZodDto(
   const type = Reflect.getMetadata('design:paramtypes', target, propertyKey)?.[
     parameterIndex
   ];
-  if (!isZodDto(type)) {
+  if (!isZodDto(type)) {˚
     throw new Error(`${type?.name} is not a ZodDto`);
   }
   return type;

@@ -1,4 +1,4 @@
-import { exception } from './exception';
+import { exception } from './exception/exception';
 import { HttpStatus } from '@nestjs/common';
 
 export const BAD_REQUEST_BODY = exception({
@@ -15,12 +15,6 @@ export const BAD_REQUEST_PARAMS = exception({
   status: HttpStatus.BAD_REQUEST,
   errorCode: 'CORE-0003',
   message: 'The request params has invalid data',
-});
-export const INTERNAL_STATE_OUT_OF_CONTEXT = exception({
-  status: HttpStatus.INTERNAL_SERVER_ERROR,
-  errorCode: 'CORE-0004',
-  error:
-    'Could not get internal state, make sure your function is running in the context',
 });
 export const UNKNOWN_INTERNAL_SERVER_ERROR = exception({
   status: HttpStatus.INTERNAL_SERVER_ERROR,

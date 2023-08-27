@@ -4,10 +4,11 @@ import { PostCitiesDto, PostCitiesResponse } from './dto/PostCitiesDto';
 import { CitiesSchema } from './schemas';
 import { GetCityParams } from './dto/GetCityDto';
 import { eq } from 'drizzle-orm';
-import { exception, Exceptions } from './core/exception';
+import { exception } from './core/exception/exception';
 import { Response } from './core/zod/response.decorator';
 import { Params } from './core/zod/params.decorator';
 import { Body } from './core/zod/body.decorator';
+import { Exceptions } from './core/exception/exceptions.decorator';
 
 const CITY_NOT_FOUND = exception({
   errorCode: '0001',

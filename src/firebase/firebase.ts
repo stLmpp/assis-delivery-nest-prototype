@@ -30,8 +30,9 @@ export class FirebaseModule {
           provide: FirebaseAuth,
           useFactory: (app: FirebaseApp) => {
             const auth = getAuth(app);
-            // TODO add DEV_MODE
-            connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+            if (DEV_MODE) {
+              connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+            }
             return auth;
           },
         },

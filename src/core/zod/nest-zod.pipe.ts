@@ -1,13 +1,13 @@
 import { Paramtype } from '@nestjs/common/interfaces/features/paramtype.interface';
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import { formatZodErrorString } from '../../common/zod-error-formatter';
-import { ExceptionFactoryWithError } from '../exception';
 import {
   BAD_REQUEST_BODY,
   BAD_REQUEST_PARAMS,
   BAD_REQUEST_QUERY,
 } from '../core-exceptions';
 import { isZodDto, ZOD_DTO_SCHEMA } from './zod-dto';
+import { ExceptionFactoryWithError } from '../exception/exception.type';
 
 const PARAM_TYPES = new Set<Paramtype>(['param', 'body', 'query']);
 const NEST_ZOD_PIPE_EXCEPTIONS: Record<Paramtype, ExceptionFactoryWithError> = {

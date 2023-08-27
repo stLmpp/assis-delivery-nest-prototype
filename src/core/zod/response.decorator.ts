@@ -3,7 +3,7 @@ import { HttpCode, HttpStatus, UseInterceptors } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { generateSchema } from '../../common/generate-schema';
 import { nestZodInterceptorFactory } from './nest-zod-interceptor.factory';
-import { ZOD_DTO_SCHEMA, ZodDto } from './zod-dto';
+import { ZOD_DTO_SCHEMA, ZodDto, ZodDtoInternal } from './zod-dto';
 
 export function Response<T extends ZodSchema>(
   dto: ZodDto<T> | ZodDto<T>[],
@@ -12,7 +12,7 @@ export function Response<T extends ZodSchema>(
   return (target, propertyKey, descriptor) => {
     const isArray = Array.isArray(dto);
     const single = isArray ? dto[0] : dto;
-    const schema = single[ZOD_DTO_SCHEMA];
+    const schema = (single as ZodDtoInternal)[ZOD_DTO_SCHEMA];
     const fullSchema = isArray ? z.array(schema) : schema;
     HttpCode(status);
     ApiResponse({
