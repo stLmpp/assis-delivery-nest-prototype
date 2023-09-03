@@ -29,6 +29,7 @@ export function Exceptions(factories: ExceptionFactory[]): MethodDecorator {
             ...exception.toJSON(),
             correlationId: CORRELATION_ID_EXAMPLE,
           },
+          description: exception.description,
         };
       }
       ApiResponse({

@@ -19,7 +19,7 @@ function getCorrelationIdWithDefault() {
 export class Exception extends HttpException {
   constructor(
     status: HttpStatus,
-    public readonly message: string,
+    message: string,
     public readonly errorCode: string,
     public readonly error: string,
     public readonly description?: string,
@@ -39,7 +39,7 @@ export class Exception extends HttpException {
     this.correlationId = correlationId;
   }
 
-  correlationId: string;
+  public readonly correlationId: string;
 
   toJSON(): ExceptionType {
     return {
