@@ -7,7 +7,6 @@ import { FirebaseAdminModule } from './firebase/firebase-admin';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     DrizzleOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -21,6 +20,5 @@ import { FirebaseAdminModule } from './firebase/firebase-admin';
     }),
   ],
   controllers: [CitiesController],
-  providers: [],
 })
 export class AppModule {}
