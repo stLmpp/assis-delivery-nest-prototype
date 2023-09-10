@@ -9,6 +9,14 @@ const DATABASE_URL = defineSecret('DATABASE_URL');
 export const api = https.onRequest(
   {
     secrets: [DATABASE_URL],
+    // TODO figure out a way to configure this in the build process (github action)
+    timeoutSeconds: 20,
+    cpu: 1,
+    region: 'us-east1',
+    minInstances: 0,
+    maxInstances: 2,
+    concurrency: 50,
+    memory: '256MiB',
   },
   async (request, response) => {
     const [app] = await createNestApp({

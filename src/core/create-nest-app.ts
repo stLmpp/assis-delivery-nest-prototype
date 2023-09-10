@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import express, { Express } from 'express';
 import { defineSecret } from 'firebase-functions/params';
+import { logger } from 'firebase-functions/v2';
 import helmet from 'helmet';
 import { SwaggerUIOptions } from 'swagger-ui';
 
@@ -41,6 +42,9 @@ export async function createNestApp(
       module: options.module,
     }),
     new ExpressAdapter(expressApp),
+    {
+      logger,
+    },
   );
 
   nestApp

@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Post } from '@nestjs/common';
+import { Controller, Delete, Get, HttpStatus, Post } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 
 import { exception } from './core/exception/exception';
@@ -54,6 +54,11 @@ export class CitiesController {
     return this.drizzle.select().from(CitiesSchema);
   }
 
+  @Delete(':idCity')
+  async deleteCity(@Params() { idCity }: GetCityParams): Promise<void> {
+    await this.drizzle.delete(CitiesSchema).where(eq(CitiesSchema.id, idCity));
+  }
+
   @Exceptions([CITY_NOT_FOUND, INTERNAL_SERVER_ERROR, CITY_NOT_FOUND2])
   @Response(PostCitiesResponse)
   @Get(':idCity')
@@ -67,9 +72,6 @@ export class CitiesController {
     if (!city) {
       throw CITY_NOT_FOUND();
     }
-    return {
-      ...city,
-      id: '123',
-    } as any;
+    return city;
   }
 }
