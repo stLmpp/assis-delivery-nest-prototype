@@ -1,8 +1,10 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { getReasonPhrase } from 'http-status-codes';
 import { SetOptional } from 'type-fest';
-import { getCorrelationId } from '../internal-state';
+
 import { safe } from '../../common/safe';
+import { getCorrelationId } from '../internal-state';
+
 import {
   ExceptionArgs,
   ExceptionFactory,

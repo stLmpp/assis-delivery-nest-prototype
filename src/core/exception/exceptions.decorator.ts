@@ -1,12 +1,15 @@
-import { ExceptionFactory } from './exception.type';
-import { arrayUniqBy } from '../../common/array-uniq-by';
-import { ExamplesObject } from 'openapi3-ts/oas31';
-import { ApiResponse } from '@nestjs/swagger';
-import { generateSchema } from '../../common/generate-schema';
-import { ExceptionSchema } from './exceptios.schema';
-import { getReasonPhrase } from 'http-status-codes';
 import { randomUUID } from 'node:crypto';
+
+import { ApiResponse } from '@nestjs/swagger';
+import { getReasonPhrase } from 'http-status-codes';
+import { ExamplesObject } from 'openapi3-ts/oas31';
+
+import { arrayUniqBy } from '../../common/array-uniq-by';
+import { generateSchema } from '../../common/generate-schema';
+
 import * as CoreExceptions from './core-exceptions';
+import { ExceptionFactory } from './exception.type';
+import { ExceptionSchema } from './exceptios.schema';
 
 const CORRELATION_ID_EXAMPLE = randomUUID();
 

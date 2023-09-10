@@ -1,10 +1,11 @@
-import postgres from 'postgres';
-import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import {
   ConfigurableModuleBuilder,
   DynamicModule,
   Module,
 } from '@nestjs/common';
+import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+
 import { getClazz } from '../common/get-clazz';
 
 export class Drizzle extends getClazz<PostgresJsDatabase>() {}

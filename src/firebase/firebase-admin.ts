@@ -1,15 +1,17 @@
+import { DynamicModule, Logger, Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
-import { DynamicModule, Logger, Module } from '@nestjs/common';
-import {
-  FirestoreThrottler,
-  FirestoreThrottlerCollectionNameToken,
-} from './firestore-throttler';
-import { FirebaseAdminApp } from './firebase-admin-app';
-import { FirebaseAdminFirestore } from './firebase-admin-firestore';
-import { FirebaseAdminAuth } from './firebase-admin-auth';
+
+import { Throttler } from '../core/throttler/throttler';
+import { ThrottlerOptionsToken } from '../core/throttler/throttler-options.token';
+import { ThrottlerGuard } from '../core/throttler/throttler.guard';
 import { ThrottlerOptions } from '../core/throttler/throttler.type';
+
+import { FirebaseAdminApp } from './firebase-admin-app';
+import { FirebaseAdminAuth } from './firebase-admin-auth';
+import { FirebaseAdminFirestore } from './firebase-admin-firestore';
 import {
   FirebaseAdminAsyncOptionsType,
   FirebaseAdminBaseClass,
@@ -17,10 +19,10 @@ import {
   FirebaseAdminOptionsToken,
   FirebaseAdminOptionsType,
 } from './firebase-admin.config';
-import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerGuard } from '../core/throttler/throttler.guard';
-import { Throttler } from '../core/throttler/throttler';
-import { ThrottlerOptionsToken } from '../core/throttler/throttler-options.token';
+import {
+  FirestoreThrottler,
+  FirestoreThrottlerCollectionNameToken,
+} from './firestore-throttler';
 
 @Module({
   exports: [FirebaseAdminApp, FirebaseAdminFirestore, FirebaseAdminAuth],

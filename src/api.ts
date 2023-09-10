@@ -1,7 +1,8 @@
-import { https } from 'firebase-functions/v2';
-import { createNestApp } from './create-nest-app';
 import { defineSecret } from 'firebase-functions/params';
+import { https } from 'firebase-functions/v2';
+
 import { AppModule } from './app.module';
+import { createNestApp } from './core/create-nest-app';
 
 const DATABASE_URL = defineSecret('DATABASE_URL');
 

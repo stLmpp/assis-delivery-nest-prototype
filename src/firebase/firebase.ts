@@ -1,11 +1,12 @@
+import { DynamicModule, Injectable, Module } from '@nestjs/common';
 import {
   FirebaseApp as FirebaseAppInterface,
   FirebaseOptions,
   initializeApp,
 } from 'firebase/app';
 import { Auth, connectAuthEmulator, getAuth } from 'firebase/auth';
+
 import { getClazz } from '../common/get-clazz';
-import { DynamicModule, Injectable, Module } from '@nestjs/common';
 
 @Injectable()
 export class FirebaseAuth extends getClazz<Auth>() {}
@@ -22,9 +23,7 @@ export class FirebaseModule {
       providers: [
         {
           provide: FirebaseApp,
-          useFactory: () => {
-            return initializeApp(options ?? {});
-          },
+          useFactory: () => initializeApp(options ?? {}),
         },
         {
           provide: FirebaseAuth,

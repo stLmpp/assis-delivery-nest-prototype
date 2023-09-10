@@ -1,9 +1,10 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 
-import { RequestHandler } from 'express';
-import { exception } from './exception/exception';
 import { HttpStatus } from '@nestjs/common';
+import { RequestHandler } from 'express';
+
+import { exception } from './exception/exception';
 
 const INTERNAL_STATE_OUT_OF_CONTEXT = () =>
   exception({
@@ -42,19 +43,19 @@ export function runInContext<T>(
 }
 
 export function internalStateMiddleware(): RequestHandler {
-  return async (req, res, next) => {
-    const correlationIdHeaderRaw = req.get('x-correlation-id');
+  return async (request, response, next) => {
+    const correlationIdHeaderRaw = request.get('x-correlation-id');
     const correlationIdHeader = correlationIdHeaderRaw?.length
       ? correlationIdHeaderRaw
-      : null;
-    const correlationIdQueryRaw = req.query['correlationId'];
+      : undefined;
+    const correlationIdQueryRaw = request.query['correlationId'];
     const correlationIdQuery =
       typeof correlationIdQueryRaw === 'string' && correlationIdQueryRaw.length
         ? correlationIdQueryRaw
-        : null;
+        : undefined;
     const correlationId =
       correlationIdHeader ?? correlationIdQuery ?? createCorrelationId();
-    res.setHeader('x-correlation-id', correlationId);
+    response.setHeader('x-correlation-id', correlationId);
     runInContext(
       () => {
         next();

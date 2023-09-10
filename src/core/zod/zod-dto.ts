@@ -28,7 +28,7 @@ export function isZodDto(value: unknown): value is ZodDtoInternal {
 }
 
 export function getZodDto(
-  target: Object,
+  target: NonNullable<unknown>,
   propertyKey: string | symbol,
   parameterIndex: number,
 ): ZodDtoInternal {

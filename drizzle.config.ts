@@ -1,6 +1,5 @@
-import { Config } from 'drizzle-kit';
-
 import { config } from 'dotenv';
+import { Config } from 'drizzle-kit';
 
 config();
 

@@ -1,5 +1,3 @@
-import { ZodSchema } from 'zod';
-import { Class } from 'type-fest';
 import {
   CallHandler,
   ExecutionContext,
@@ -7,8 +5,11 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable, switchMap } from 'rxjs';
-import { INVALID_RESPONSE } from '../exception/core-exceptions';
+import { Class } from 'type-fest';
+import { ZodSchema } from 'zod';
+
 import { formatZodErrorString } from '../../common/zod-error-formatter';
+import { INVALID_RESPONSE } from '../exception/core-exceptions';
 
 export function nestZodInterceptorFactory(
   schema: ZodSchema,

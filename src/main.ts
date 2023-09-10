@@ -1,6 +1,7 @@
-import { createNestApp } from './create-nest-app';
 import { Logger } from '@nestjs/common';
+
 import { AppModule } from './app.module';
+import { createNestApp } from './core/create-nest-app';
 
 (async () => {
   const [, app] = await createNestApp({

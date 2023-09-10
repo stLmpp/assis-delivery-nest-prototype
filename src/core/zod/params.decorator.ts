@@ -1,7 +1,9 @@
-import { ZodObject, ZodType } from 'zod';
 import { Param } from '@nestjs/common';
 import { ApiParam } from '@nestjs/swagger';
+import { ZodObject, ZodType } from 'zod';
+
 import { generateSchema } from '../../common/generate-schema';
+
 import { getZodDto, ZOD_DTO_SCHEMA } from './zod-dto';
 
 export function Params(): ParameterDecorator {
@@ -9,7 +11,7 @@ export function Params(): ParameterDecorator {
     const type = getZodDto(target, propertyKey!, parameterIndex);
     const schema = type[ZOD_DTO_SCHEMA];
     if (!(schema instanceof ZodObject)) {
-      throw new Error(
+      throw new TypeError(
         `${type.name} cannot be used in the Params decorator because it's not a ZodObject`,
       );
     }

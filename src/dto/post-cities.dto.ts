@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { zodDto } from '../core/zod/zod-dto';
 
 const PostCitiesSchema = z.object({

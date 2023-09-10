@@ -10,9 +10,10 @@ import {
   THROTTLER_SKIP,
   THROTTLER_TTL,
 } from '@nestjs/throttler/dist/throttler.constants';
-import { ThrottlerOptions } from './throttler.type';
+
 import { Throttler } from './throttler';
 import { ThrottlerOptionsToken } from './throttler-options.token';
+import { ThrottlerOptions } from './throttler.type';
 
 @Injectable()
 export class ThrottlerGuard implements CanActivate {
@@ -24,13 +25,13 @@ export class ThrottlerGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const handler = context.getHandler();
-    const classRef = context.getClass();
+    const classReference = context.getClass();
 
     // Return early if the current route should be skipped.
     if (
       this.reflector.getAllAndOverride<boolean>(THROTTLER_SKIP, [
         handler,
-        classRef,
+        classReference,
       ])
     ) {
       return true;
@@ -39,11 +40,11 @@ export class ThrottlerGuard implements CanActivate {
     // Return early when we have no limit or ttl data.
     const limit = this.reflector.getAllAndOverride<number>(THROTTLER_LIMIT, [
       handler,
-      classRef,
+      classReference,
     ]);
     const ttl = this.reflector.getAllAndOverride<number>(THROTTLER_TTL, [
       handler,
-      classRef,
+      classReference,
     ]);
 
     await this.throttler.rejectOnQuotaExceededOrRecordUsage({

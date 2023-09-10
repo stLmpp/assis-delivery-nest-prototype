@@ -1,54 +1,28 @@
+import { INestApplication, Type, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import {
-  DynamicModule,
-  INestApplication,
-  Module,
-  Type,
-  VersioningType,
-} from '@nestjs/common';
-import { internalStateMiddleware } from './core/internal-state';
-import helmet from 'helmet';
 import compression from 'compression';
 import express, { Express } from 'express';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import { SwaggerUIOptions } from 'swagger-ui';
 import { defineSecret } from 'firebase-functions/params';
-import { ConfigModule } from '@nestjs/config';
+import helmet from 'helmet';
+import { SwaggerUIOptions } from 'swagger-ui';
+
+import { internalStateMiddleware } from './internal-state';
+import { MainModule } from './main.module';
 
 (BigInt.prototype as bigint & { toJSON(): number }).toJSON = function () {
   return Number(this);
 };
 
-let expressApp: Express | null = null;
-let nestApp: INestApplication | null = null;
+let expressApp: Express | undefined;
+let nestApp: INestApplication | undefined;
 
 export interface CreateNestAppOptions {
   secrets?: Record<string, ReturnType<typeof defineSecret>>;
   module: Type;
 }
 
-// TODO MOVE TO CORE
-@Module({})
-class MainModule {
-  static create(options: {
-    // TODO create type
-    secrets: Record<string, string>;
-    module: Type;
-  }): DynamicModule {
-    return {
-      module: MainModule,
-      imports: [
-        ConfigModule.forRoot({
-          load: [() => options.secrets],
-        }),
-        options.module,
-      ],
-    };
-  }
-}
-
-// TODO move to CORE
 export async function createNestApp(
   options: CreateNestAppOptions,
 ): Promise<[Express, INestApplication]> {
@@ -89,10 +63,10 @@ export async function createNestApp(
   SwaggerModule.setup('help', nestApp, document, {
     swaggerOptions: {
       displayRequestDuration: true,
-      requestInterceptor: (request) => {
+      requestInterceptor: (request) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        return __request__interceptor(request);
-      },
+        __request__interceptor(request),
     } satisfies SwaggerUIOptions,
     customJsStr: `window.__request__interceptor = (request) => {
         const url = new URL(request.url);

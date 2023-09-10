@@ -94,10 +94,10 @@ export function format_zod_issue(issue: ZodIssue): ZodErrorFormatted[] {
  * Example: ["config", "requests", 0, "name"] --> "config.requests[0].name"
  */
 export function format_zod_issue_path(path: (string | number)[]): string {
-  return path.reduce((acc: string, item: string | number) => {
+  return path.reduce((fullPath: string, item: string | number) => {
     if (typeof item === 'number') {
-      return `${acc}[${item}]`;
+      return `${fullPath}[${item}]`;
     }
-    return `${acc && acc + '.'}${item}`;
+    return `${fullPath && fullPath + '.'}${item}`;
   }, '');
 }
