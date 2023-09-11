@@ -7,7 +7,6 @@ import express, { Express } from 'express';
 import { defineSecret } from 'firebase-functions/params';
 import { logger } from 'firebase-functions/v2';
 import helmet from 'helmet';
-import { SwaggerUIOptions } from 'swagger-ui';
 
 import { internalStateMiddleware } from './internal-state';
 import { MainModule } from './main.module';
@@ -67,11 +66,11 @@ export async function createNestApp(
   SwaggerModule.setup('help', nestApp, document, {
     swaggerOptions: {
       displayRequestDuration: true,
-      requestInterceptor: (request) =>
+      requestInterceptor: (request: unknown) =>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         __request__interceptor(request),
-    } satisfies SwaggerUIOptions,
+    },
     customJsStr: `window.__request__interceptor = (request) => {
         const url = new URL(request.url);
         const endPoint = url.pathname;

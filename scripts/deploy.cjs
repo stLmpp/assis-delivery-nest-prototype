@@ -31,5 +31,3 @@ async function main() {
 main().then(() => {
   console.log('Deployment successful!');
 });
-
-// TODO figure out why deploy is not working, need to sort out the permissions needed
