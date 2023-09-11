@@ -16,7 +16,8 @@
     "test:debug": "vitest --inspect-brk --inspect --logHeapUsage --threads=false",
     "test:ui": "vitest --ui",
     "dev": "node scripts/dev.cjs",
-    "postinstall": "node scripts/create-swcrc.cjs"
+    "postinstall": "node scripts/create-swcrc.cjs",
+    "deploy:ci": "node scripts/deploy.cjs"
   },
   "dependencies": {
     "@anatine/zod-openapi": "^2.2.0",
