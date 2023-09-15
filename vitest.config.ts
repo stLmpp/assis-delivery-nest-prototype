@@ -5,6 +5,15 @@ export default defineConfig({
   test: {
     globals: true,
     root: './',
+    coverage: {
+      branches: 70,
+      enabled: true,
+      functions: 70,
+      lines: 70,
+      statements: 70,
+      all: true,
+      reporter: ['text', 'html', 'json', 'lcovonly'],
+    },
   },
   plugins: [
     // This is required to build the test files with SWC
