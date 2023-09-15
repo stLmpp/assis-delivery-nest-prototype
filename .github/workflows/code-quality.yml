@@ -30,12 +30,12 @@ jobs:
       - name: Create QODANA folder
         run: mkdir .qodana
       - name: Move coverage folder to QODANA
-        run: mv coverage .qodana/coverage
+        run: mv coverage .qodana/code-coverage
       - name: Archive coverage data
         uses: actions/upload-artifact@v3
         with:
           name: vitest-coverage-data
-          path: .qodana/coverage
+          path: .qodana/code-coverage
       - name: Qodana Scan
         uses: JetBrains/qodana-action@v2022.3.4
         env:
