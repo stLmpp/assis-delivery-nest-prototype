@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "main": "dist/api.js",
+  "type": "module",
   "scripts": {
     "build": "node scripts/build.cjs",
     "build:app": "nest build",
@@ -68,6 +69,7 @@
     "eslint-plugin-unicorn": "^48.0.1",
     "kill-port": "^2.0.1",
     "prettier": "^3.0.3",
+    "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "unplugin-swc": "^1.4.2",
     "vitest": "^0.34.4",

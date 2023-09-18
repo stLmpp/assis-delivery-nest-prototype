@@ -1,8 +1,8 @@
 import { type ZodError, type ZodIssue, ZodIssueCode } from 'zod';
 
-import { coerceArray } from './coerce-array';
-import { group_to_map } from './group-to-map';
-import { arrayUniqWith } from './uniq-with';
+import { coerceArray } from './coerce-array.js';
+import { group_to_map } from './group-to-map.js';
+import { arrayUniqWith } from './uniq-with.js';
 
 export interface ZodErrorFormatted {
   path: string;

@@ -2,7 +2,7 @@ import { Type } from '@nestjs/common';
 import { defineSecret } from 'firebase-functions/params';
 import { https } from 'firebase-functions/v2';
 
-import { createNestApp } from './create-nest-app';
+import { createNestApp } from './create-nest-app.js';
 
 const DATABASE_URL = defineSecret('DATABASE_URL');
 

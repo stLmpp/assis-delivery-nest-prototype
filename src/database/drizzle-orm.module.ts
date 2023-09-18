@@ -6,7 +6,7 @@ import {
 import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-import { getClazz } from '../common/get-clazz';
+import { getClazz } from '../common/get-clazz.js';
 
 export class Drizzle extends getClazz<PostgresJsDatabase>() {}
 

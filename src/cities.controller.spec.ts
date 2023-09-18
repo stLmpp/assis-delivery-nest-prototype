@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { mock } from 'vitest-mock-extended';
 
-import { CitiesController } from './cities.controller';
-import { Drizzle } from './database/drizzle-orm.module';
+import { CitiesController } from './cities.controller.js';
+import { Drizzle } from './database/drizzle-orm.module.js';
 
 describe('CitiesController', () => {
   let controller: CitiesController;

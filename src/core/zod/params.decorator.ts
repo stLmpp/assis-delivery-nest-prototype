@@ -2,9 +2,9 @@ import { Param } from '@nestjs/common';
 import { ApiParam } from '@nestjs/swagger';
 import { ZodObject, ZodType } from 'zod';
 
-import { generateSchema } from '../../common/generate-schema';
+import { generateSchema } from '../../common/generate-schema.js';
 
-import { getZodDto, ZOD_DTO_SCHEMA } from './zod-dto';
+import { getZodDto, ZOD_DTO_SCHEMA } from './zod-dto.js';
 
 export function Params(): ParameterDecorator {
   return (target, propertyKey, parameterIndex) => {

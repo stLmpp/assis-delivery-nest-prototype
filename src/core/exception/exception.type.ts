@@ -1,8 +1,8 @@
 import { HttpStatus } from '@nestjs/common';
 import { z } from 'zod';
 
-import { Exception } from './exception';
-import { ExceptionSchema } from './exceptios.schema';
+import { Exception } from './exception.js';
+import { ExceptionSchema } from './exceptios.schema.js';
 
 export type ExceptionType = z.infer<typeof ExceptionSchema>;
 

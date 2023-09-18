@@ -9,11 +9,11 @@ import {
   THROTTLER_LIMIT,
   THROTTLER_SKIP,
   THROTTLER_TTL,
-} from '@nestjs/throttler/dist/throttler.constants';
+} from '@nestjs/throttler/dist/throttler.constants.js';
 
-import { Throttler } from './throttler';
-import { ThrottlerOptionsToken } from './throttler-options.token';
-import { ThrottlerOptions } from './throttler.type';
+import { ThrottlerOptionsToken } from './throttler-options.token.js';
+import { Throttler } from './throttler.js';
+import type { ThrottlerOptions } from './throttler.type.js';
 
 @Injectable()
 export class ThrottlerGuard implements CanActivate {

@@ -2,10 +2,10 @@ import { HttpCode, HttpStatus, UseInterceptors } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { z, ZodSchema } from 'zod';
 
-import { generateSchema } from '../../common/generate-schema';
+import { generateSchema } from '../../common/generate-schema.js';
 
-import { nestZodInterceptorFactory } from './nest-zod-interceptor.factory';
-import { ZOD_DTO_SCHEMA, ZodDto, ZodDtoInternal } from './zod-dto';
+import { nestZodInterceptorFactory } from './nest-zod-interceptor.factory.js';
+import { ZOD_DTO_SCHEMA, ZodDto, ZodDtoInternal } from './zod-dto.js';
 
 export function Response<T extends ZodSchema>(
   dto: ZodDto<T> | ZodDto<T>[],

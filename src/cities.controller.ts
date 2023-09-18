@@ -1,15 +1,15 @@
 import { Controller, Delete, Get, HttpStatus, Post } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 
-import { exception } from './core/exception/exception';
-import { Exceptions } from './core/exception/exceptions.decorator';
-import { Body } from './core/zod/body.decorator';
-import { Params } from './core/zod/params.decorator';
-import { Response } from './core/zod/response.decorator';
-import { Drizzle } from './database/drizzle-orm.module';
-import { GetCityParams } from './dto/get-city.dto';
-import { PostCitiesDto, PostCitiesResponse } from './dto/post-cities.dto';
-import { CitiesSchema } from './schemas';
+import { exception } from './core/exception/exception.js';
+import { Exceptions } from './core/exception/exceptions.decorator.js';
+import { Body } from './core/zod/body.decorator.js';
+import { Params } from './core/zod/params.decorator.js';
+import { Response } from './core/zod/response.decorator.js';
+import { Drizzle } from './database/drizzle-orm.module.js';
+import { GetCityParams } from './dto/get-city.dto.js';
+import { PostCitiesDto, PostCitiesResponse } from './dto/post-cities.dto.js';
+import { CitiesSchema } from './schemas.js';
 
 const CITY_NOT_FOUND = exception({
   errorCode: '0001',

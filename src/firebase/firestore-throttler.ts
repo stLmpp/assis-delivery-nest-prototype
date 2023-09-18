@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { FirebaseFunctionsRateLimiter } from 'firebase-functions-rate-limiter';
 
-import { safeAsync } from '../common/safe';
-import { TOO_MANY_REQUESTS } from '../core/exception/core-exceptions';
-import { Throttler } from '../core/throttler/throttler';
-import { ThrottlerOptionsArgs } from '../core/throttler/throttler.type';
+import { safeAsync } from '../common/safe.js';
+import { TOO_MANY_REQUESTS } from '../core/exception/core-exceptions.js';
+import { Throttler } from '../core/throttler/throttler.js';
+import { ThrottlerOptionsArgs } from '../core/throttler/throttler.type.js';
 
-import { FirebaseAdminFirestore } from './firebase-admin-firestore';
+import { FirebaseAdminFirestore } from './firebase-admin-firestore.js';
 
 export const FirestoreThrottlerCollectionNameToken =
   'FirestoreThrottlerCollectionNameToken';
