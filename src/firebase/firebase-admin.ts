@@ -4,25 +4,25 @@ import { initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 
-import { Throttler } from '../core/throttler/throttler';
-import { ThrottlerOptionsToken } from '../core/throttler/throttler-options.token';
-import { ThrottlerGuard } from '../core/throttler/throttler.guard';
-import { ThrottlerOptions } from '../core/throttler/throttler.type';
+import { ThrottlerOptionsToken } from '../core/throttler/throttler-options.token.js';
+import { ThrottlerGuard } from '../core/throttler/throttler.guard.js';
+import { Throttler } from '../core/throttler/throttler.js';
+import { ThrottlerOptions } from '../core/throttler/throttler.type.js';
 
-import { FirebaseAdminApp } from './firebase-admin-app';
-import { FirebaseAdminAuth } from './firebase-admin-auth';
-import { FirebaseAdminFirestore } from './firebase-admin-firestore';
+import { FirebaseAdminApp } from './firebase-admin-app.js';
+import { FirebaseAdminAuth } from './firebase-admin-auth.js';
+import { FirebaseAdminFirestore } from './firebase-admin-firestore.js';
 import {
   FirebaseAdminAsyncOptionsType,
   FirebaseAdminBaseClass,
   FirebaseAdminModuleOptions,
   FirebaseAdminOptionsToken,
   FirebaseAdminOptionsType,
-} from './firebase-admin.config';
+} from './firebase-admin.config.js';
 import {
   FirestoreThrottler,
   FirestoreThrottlerCollectionNameToken,
-} from './firestore-throttler';
+} from './firestore-throttler.js';
 
 @Module({
   exports: [FirebaseAdminApp, FirebaseAdminFirestore, FirebaseAdminAuth],

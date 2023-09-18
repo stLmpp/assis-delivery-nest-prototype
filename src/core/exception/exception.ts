@@ -2,8 +2,8 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { getReasonPhrase } from 'http-status-codes';
 import { SetOptional } from 'type-fest';
 
-import { safe } from '../../common/safe';
-import { getCorrelationId } from '../internal-state';
+import { safe } from '../../common/safe.js';
+import { getCorrelationId } from '../internal-state.js';
 
 import {
   ExceptionArgs,
@@ -11,7 +11,7 @@ import {
   ExceptionFactoryWithError,
   ExceptionFactoryWithoutError,
   ExceptionType,
-} from './exception.type';
+} from './exception.type.js';
 
 function getCorrelationIdWithDefault() {
   const [, correlationId] = safe(() => getCorrelationId());

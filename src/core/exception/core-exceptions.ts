@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 
-import { exception } from './exception';
+import { exception } from './exception.js';
 
 export const BAD_REQUEST_BODY = exception({
   status: HttpStatus.BAD_REQUEST,

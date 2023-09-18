@@ -8,8 +8,8 @@ import { defineSecret } from 'firebase-functions/params';
 import { logger } from 'firebase-functions/v2';
 import helmet from 'helmet';
 
-import { internalStateMiddleware } from './internal-state';
-import { MainModule } from './main.module';
+import { internalStateMiddleware } from './internal-state.js';
+import { MainModule } from './main.module.js';
 
 (BigInt.prototype as bigint & { toJSON(): number }).toJSON = function () {
   return Number(this);

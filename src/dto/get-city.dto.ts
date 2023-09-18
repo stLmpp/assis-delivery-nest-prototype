@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { ParamIntSchema } from '../common/common-schemas';
-import { zodDto } from '../core/zod/zod-dto';
+import { ParamIntSchema } from '../common/common-schemas.js';
+import { zodDto } from '../core/zod/zod-dto.js';
 
 const GetCitySchema = z.object({
   idCity: ParamIntSchema,

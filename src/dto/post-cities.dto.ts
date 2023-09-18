@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { zodDto } from '../core/zod/zod-dto';
+import { zodDto } from '../core/zod/zod-dto.js';
 
 const PostCitiesSchema = z.object({
   name: z.string().trim().nonempty().max(200),

@@ -1,4 +1,4 @@
-import { ThrottlerOptionsArgs } from './throttler.type';
+import type { ThrottlerOptionsArgs } from './throttler.type.js';
 
 export abstract class Throttler {
   abstract rejectOnQuotaExceededOrRecordUsage(

@@ -4,12 +4,12 @@ import { ApiResponse } from '@nestjs/swagger';
 import { getReasonPhrase } from 'http-status-codes';
 import { ExamplesObject } from 'openapi3-ts/oas31';
 
-import { arrayUniqBy } from '../../common/array-uniq-by';
-import { generateSchema } from '../../common/generate-schema';
+import { arrayUniqBy } from '../../common/array-uniq-by.js';
+import { generateSchema } from '../../common/generate-schema.js';
 
-import * as CoreExceptions from './core-exceptions';
-import { ExceptionFactory } from './exception.type';
-import { ExceptionSchema } from './exceptios.schema';
+import * as CoreExceptions from './core-exceptions.js';
+import { ExceptionFactory } from './exception.type.js';
+import { ExceptionSchema } from './exceptios.schema.js';
 
 const CORRELATION_ID_EXAMPLE = randomUUID();
 

@@ -13,8 +13,8 @@ import { Class } from 'type-fest';
 import {
   ROUTE_NOT_FOUND,
   UNKNOWN_INTERNAL_SERVER_ERROR,
-} from './exception/core-exceptions';
-import { Exception } from './exception/exception';
+} from './exception/core-exceptions.js';
+import { Exception } from './exception/exception.js';
 
 type PossibleException<T = any> = {
   type: Class<T>;
@@ -76,8 +76,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     httpAdapter.reply(
       context.getResponse(),
-      exception.toJSON(),
-      exception.getStatus(),
+      exception!.toJSON(),
+      exception!.getStatus(),
     );
   }
 }

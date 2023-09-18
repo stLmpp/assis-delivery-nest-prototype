@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { HttpStatus } from '@nestjs/common';
 import { RequestHandler } from 'express';
 
-import { exception } from './exception/exception';
+import { exception } from './exception/exception.js';
 
 const INTERNAL_STATE_OUT_OF_CONTEXT = () =>
   exception({

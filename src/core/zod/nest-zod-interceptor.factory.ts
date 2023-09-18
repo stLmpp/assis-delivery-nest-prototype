@@ -8,8 +8,8 @@ import { Observable, switchMap } from 'rxjs';
 import { Class } from 'type-fest';
 import { ZodSchema } from 'zod';
 
-import { formatZodErrorString } from '../../common/zod-error-formatter';
-import { INVALID_RESPONSE } from '../exception/core-exceptions';
+import { formatZodErrorString } from '../../common/zod-error-formatter.js';
+import { INVALID_RESPONSE } from '../exception/core-exceptions.js';
 
 export function nestZodInterceptorFactory(
   schema: ZodSchema,

@@ -6,7 +6,7 @@ import {
 } from 'firebase/app';
 import { Auth, connectAuthEmulator, getAuth } from 'firebase/auth';
 
-import { getClazz } from '../common/get-clazz';
+import { getClazz } from '../common/get-clazz.js';
 
 @Injectable()
 export class FirebaseAuth extends getClazz<Auth>() {}
